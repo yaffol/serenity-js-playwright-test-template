@@ -1,0 +1,63 @@
+{
+  "name": "serenity-js-playwright-test-template",
+  "version": "3.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "serenity-bdd update",
+    "clean": "rimraf playwright-report target",
+    "test": "failsafe clean test:execute test:report",
+    "test:execute": "playwright test",
+    "test:report": "serenity-bdd run",
+    "start": "mkdirp target/site/serenity && npx http-server -p 8080 target/site/serenity -s -o",
+    "lint": "eslint --ext ts --config .eslintrc.js .",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serenity-js/serenity-js-playwright-test-template.git"
+  },
+  "keywords": [
+    "serenity-js",
+    "bdd",
+    "playwright",
+    "playwright-test",
+    "testing"
+  ],
+  "author": "Jan Molak <jan.molak@smartcodeltd.co.uk>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/serenity-js/serenity-js/issues"
+  },
+  "homepage": "https://serenity-js.org",
+  "engines": {
+    "node": "^14 || ^16 || ^18",
+    "npm": "^6 || ^7 || ^8"
+  },
+  "dependencies": {
+    "@playwright/test": "1.31.1",
+    "@serenity-js/assertions": "^3.0.0-rc.42",
+    "@serenity-js/console-reporter": "^3.0.0-rc.42",
+    "@serenity-js/core": "^3.0.0-rc.42",
+    "@serenity-js/playwright": "^3.0.0-rc.42",
+    "@serenity-js/playwright-test": "^3.0.0-rc.42",
+    "@serenity-js/rest": "^3.0.0-rc.42",
+    "@serenity-js/serenity-bdd": "^3.0.0-rc.42",
+    "@serenity-js/web": "^3.0.0-rc.42",
+    "playwright": "1.31.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "eslint": "^8.35.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unicorn": "^45.0.2",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "http-server": "^14.1.1",
+    "mkdirp": "^1.0.4",
+    "npm-failsafe": "^0.4.3",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.9.5"
+  }
+}
