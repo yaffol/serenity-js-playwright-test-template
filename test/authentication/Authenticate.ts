@@ -28,11 +28,11 @@ export const Authenticate = {
  */
 const LoginForm = {
     usernameField: () =>
-        PageElement.located(By.id('username')).describedAs('username field'),
+        PageElement.located(By.css('[name="username"]')).describedAs('username field'),
 
     passwordField: () =>
-        PageElement.located(By.id('password')).describedAs('password field'),
+        PageElement.located(By.css('[name="password"]')).describedAs('password field'),
 
     loginButton: () =>
-        PageElement.located(By.css('button[type="submit"]')).describedAs('login button'),
+        PageElement.located(By.css('[name="login"]')).describedAs('login button'),
 }

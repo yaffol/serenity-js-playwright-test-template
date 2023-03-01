@@ -18,6 +18,12 @@ Given('{actor} starts with the {string} example', async (actor: Actor, exampleNa
     )
 );
 
+Given('{actor} starts on the keymanager landing page', async (actor: Actor) =>
+    actor.attemptsTo(
+        Navigate.to('/keymanager'),
+    )
+);
+
 When('{pronoun} log(s) in using {string} and {string}', async (actor: Actor, username: string, password: string) =>
     actor.attemptsTo(
         Authenticate.using(username, password),
@@ -31,9 +37,16 @@ When('{pronoun} log(s) in using {string} and {string}', async (actor: Actor, use
  *  see: https://serenity-js.org/modules/core/function/index.html#static-function-actorCalled
  *  see: https://serenity-js.org/modules/core/function/index.html#static-function-actorInTheSpotlight
  */
-Then(/.* should see that authentication has (succeeded|failed)/, async (expectedOutcome: string) =>
+Then(/.* should see that authentication for {string} has (succeeded|failed)/, async (username: string, expectedOutcome: string) =>
     actorInTheSpotlight().attemptsTo(
-        VerifyAuthentication[expectedOutcome](),
+        VerifyAuthentication[expectedOutcome](username),
     )
 );
+
+Then('{pronoun} should see that authentication for {string} has {string}', async (actor: Actor, username: string, expectedOutcome: string) =>
+    actorInTheSpotlight().attemptsTo(
+        VerifyAuthentication[expectedOutcome](username),
+    )
+);
+
 

@@ -1,5 +1,5 @@
-import { Ensure, includes } from '@serenity-js/assertions';
-import { Task } from '@serenity-js/core';
+import { Ensure, equals, includes } from '@serenity-js/assertions';
+import { Log, Task } from '@serenity-js/core';
 import { By, isVisible, PageElement, Text } from '@serenity-js/web';
 
 /**
@@ -16,16 +16,28 @@ export class VerifyAuthentication {
             Ensure.that(FlashMessages.flashAlert(), isVisible()),
         )
 
-    static succeeded = () =>
+    private static hasUserMenu = () => {
+        return  Task.where(`#actor verifies that user menu is present`,
+            Ensure.that(UserMenu.userMail(), isVisible())
+        )
+    }
+
+    private static hasErrorMessage = () => {
+        return Task.where(`#actor verifies that error message is present`,
+            Ensure.that(LoginPage.errorMessage(), isVisible())
+        )
+    }
+
+    static succeeded = (username: string) =>
         Task.where(`#actor verifies that authentication has succeeded`,
-            VerifyAuthentication.hasFlashAlert(),
-            Ensure.that(Text.of(FlashMessages.flashAlert()), includes('You logged into a secure area!')),
+            VerifyAuthentication.hasUserMenu(),
+            Ensure.that(Text.of(UserMenu.userMail()), equals(username)),
         )
 
     static failed = () =>
         Task.where(`#actor verifies that authentication has failed`,
-            VerifyAuthentication.hasFlashAlert(),
-            Ensure.that(Text.of(FlashMessages.flashAlert()), includes('Your username is invalid!')),
+            VerifyAuthentication.hasErrorMessage(),
+            Ensure.that(Text.of(LoginPage.errorMessage()), includes('Invalid username or password.')),
         )
 }
 
@@ -36,4 +48,14 @@ export class VerifyAuthentication {
 const FlashMessages = {
     flashAlert: () =>
         PageElement.located(By.id('flash')).describedAs('flash message'),
+}
+
+const UserMenu = {
+    userMail: () =>
+        PageElement.located(By.id('user-menu')).describedAs('user menu')
+}
+
+const LoginPage = {
+    errorMessage: () =>
+        PageElement.located(By.id('input-error')).describedAs('login error message')
 }

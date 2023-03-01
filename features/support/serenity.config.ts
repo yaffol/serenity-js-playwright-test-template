@@ -7,6 +7,9 @@ import * as playwright from 'playwright';
 
 import { Actors } from '../../test';
 
+const port = process.env.E2E_WEBSERVER_PORT || process.env.PORT || 8000;
+const host = process.env.E2E_WEBSERVER_HOST || 'localhost';
+
 const timeouts = {
     cucumber: {
         step: Duration.ofSeconds(30),                       // how long to wait for a Cucumber step to complete
@@ -26,9 +29,9 @@ BeforeAll(async () => {
     // Launch the browser once before all the tests
     // Serenity/JS will take care of managing Playwright browser context and browser tabs.
     browser = await playwright.chromium.launch({
-        headless: true,
+        headless: false,
     });
-
+    
     // Configure Cucumber
     setDefaultTimeout(timeouts.cucumber.step.inMilliseconds());
 
@@ -37,7 +40,7 @@ BeforeAll(async () => {
 
         // Configure Serenity/JS actors to use Playwright browser
         actors: new Actors(browser, {
-            baseURL:                    'https://the-internet.herokuapp.com/',
+            baseURL:                    `http://${host}:${port}`,
             defaultNavigationTimeout:   timeouts.playwright.defaultNavigationTimeout.inMilliseconds(),
             defaultTimeout:             timeouts.playwright.defaultTimeout.inMilliseconds(),
         }),

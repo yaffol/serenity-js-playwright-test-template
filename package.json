@@ -6,6 +6,7 @@
   "scripts": {
     "postinstall": "serenity-bdd update",
     "clean": "rimraf target",
+    "debug": "PWDEBUG=1 DEBUG=pw:api cucumber-js",
     "test": "failsafe clean test:execute test:report",
     "test:execute": "cucumber-js",
     "test:report": "serenity-bdd run --features ./features",
