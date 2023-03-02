@@ -1,5 +1,5 @@
 import { Ensure, equals, includes } from '@serenity-js/assertions';
-import { Log, Task } from '@serenity-js/core';
+import { Log, Task, Wait } from '@serenity-js/core';
 import { By, isVisible, PageElement, Text } from '@serenity-js/web';
 
 /**
@@ -18,7 +18,7 @@ export class VerifyAuthentication {
 
     private static hasUserMenu = () => {
         return  Task.where(`#actor verifies that user menu is present`,
-            Ensure.that(UserMenu.userMail(), isVisible())
+            Wait.until(UserMenu.userMail(), isVisible())
         )
     }
 
