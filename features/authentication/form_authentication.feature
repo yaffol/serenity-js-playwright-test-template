@@ -14,10 +14,10 @@ Feature: Form-Based Authentication
     Note: With **Serenity/JS** you can use [Markdown](https://en.wikipedia.org/wiki/Markdown)
     to better describe each `Feature` and `Scenario`.
 
-    When she logs in using "<username>" and "<password>"
+    When she logs in using "<credentials>"
     Then she should see that authentication for "<username>" has "<outcome>"
 
     Examples: 
-      | username      | password | outcome   |
-      | test@user.com | pwdPWD1! | succeeded |
-      | test@user.com | barfoo   | failed    |
+      | credentials | outcome   |
+      | valid       | succeeded |
+      | invalid     | failed    |

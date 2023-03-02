@@ -1,4 +1,4 @@
-import { Task } from '@serenity-js/core';
+import { Answerable, Task } from '@serenity-js/core';
 import { By, Click, Enter, PageElement } from '@serenity-js/web';
 
 /**
@@ -13,7 +13,7 @@ import { By, Click, Enter, PageElement } from '@serenity-js/web';
  * This sequence of activities together means to "log in"
  */
 export const Authenticate = {
-    using: (username: string, password: string) =>
+    using: (username: Answerable<string>, password: Answerable<string>) =>
         Task.where(`#actor logs in as ${ username }`,
             Enter.theValue(username).into(LoginForm.usernameField()),
             Enter.theValue(password).into(LoginForm.passwordField()),

@@ -1,7 +1,8 @@
 import { Given, Then, When } from '@cucumber/cucumber';
-import { Actor, actorInTheSpotlight } from '@serenity-js/core';
+import { Actor, actorInTheSpotlight, Log, notes } from '@serenity-js/core';
 import { Navigate } from '@serenity-js/web';
 
+import { MyNotes } from '../../test/Actors'
 import { Authenticate, VerifyAuthentication } from '../../test/authentication';
 import { PickExample } from '../../test/examples';
 
@@ -24,10 +25,24 @@ Given('{actor} starts on the keymanager landing page', async (actor: Actor) =>
     )
 );
 
-When('{pronoun} log(s) in using {string} and {string}', async (actor: Actor, username: string, password: string) =>
-    actor.attemptsTo(
-        Authenticate.using(username, password),
-    )
+When('{pronoun} log(s) in using {string}', async (actor: Actor, credentials: string) => {
+    switch (credentials) {
+        case 'valid': {
+            return actor.attemptsTo(
+                Log.the(credentials),
+                Log.the(notes<MyNotes>().has('auth')),
+                Log.the(notes<MyNotes>().get('auth')),
+                Authenticate.using(notes<MyNotes>().get('auth').username, notes<MyNotes>().get('auth').password),
+            )
+        }
+        case 'invalid': {
+            return actor.attemptsTo(
+                Authenticate.using('bad', 'creds')
+            )
+        }
+    }
+    return 
+}
 );
 
 /**
@@ -45,8 +60,7 @@ Then(/.* should see that authentication for {string} has (succeeded|failed)/, as
 
 Then('{pronoun} should see that authentication for {string} has {string}', async (actor: Actor, username: string, expectedOutcome: string) =>
     actorInTheSpotlight().attemptsTo(
-        VerifyAuthentication[expectedOutcome](username),
+        VerifyAuthentication[expectedOutcome](notes<MyNotes>().get('auth').username),
     )
 );
-
 
